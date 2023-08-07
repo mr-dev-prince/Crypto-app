@@ -12,8 +12,6 @@ import {
 import Loader from "./Loader";
 import Error from "./Error";
 
-
-
 const Exchanges = () => {
   // useState hook here works like a box that stores something for the time being and you can come back later to see what's inside it;
   // here we are creating a variable(box), i.e, {exchanges} that initially keeps an empty array, but whenever we want to change the value we can call the function setExchanges with the data that we want to keep in the box {exchanges}, and it changes the empty array into the array of the data that was passed through the function;
@@ -33,9 +31,9 @@ const Exchanges = () => {
     const fetchExchanges = async () => {
       try {
         // axios here is a js library for handling http request and responses
-      const { data } = await axios.get(`${server}/exchanges`);
-      setExchanges(data); // useState function  being called here with data to be updated int that empty array;
-      setLoader(false);
+        const { data } = await axios.get(`${server}/exchanges`);
+        setExchanges(data); // useState function  being called here with data to be updated int that empty array;
+        setLoader(false);
       } catch (error) {
         setError(true);
         setLoader(false);
@@ -46,8 +44,8 @@ const Exchanges = () => {
     fetchExchanges();
   }, []);
 
-  if(error){
-    return <Error />
+  if (error) {
+    return <Error message={"Error while fetching data from the server."} />;
   }
 
   // return statement starts here==================================>
@@ -77,7 +75,15 @@ const Exchanges = () => {
 
 const ExchangeCard = ({ name, img, rank, url }) => (
   <a href={url} target={"blank"}>
-    <VStack w={"52"} shadow={"lg"} p={"8"} borderRadius={"lg"} transition={"all 0.3s"} m={"4"} css={{"&:hover":{transform:"scale(1.1)"}}} >
+    <VStack
+      w={"52"}
+      shadow={"lg"}
+      p={"8"}
+      borderRadius={"lg"}
+      transition={"all 0.3s"}
+      m={"4"}
+      css={{ "&:hover": { transform: "scale(1.1)" } }}
+    >
       <Image
         src={img}
         w={"10"}

@@ -1,17 +1,14 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Header from "./components/Header";
 import Home from "./components/Home";
-import Coins from "./components/coins";
+import Coins from "./components/Coins";
 import Exchanges from "./components/Exchanges";
 import Coindetails from "./components/Coindetails";
-
-
-
 
 function App() {
   return (
     <Router>
-    <Header/>
+      <Header />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/coins" element={<Coins />} />
