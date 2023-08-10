@@ -44,7 +44,7 @@ const Coins = () => {
   }
 
   return (
-    <Container maxWidth={"container.xl"}>
+    <Container maxWidth={"container.xl"} justifyContent={'center'}>
       {loader ? (
         <Loader />
       ) : (

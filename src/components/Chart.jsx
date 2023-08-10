@@ -22,28 +22,28 @@ Chartjs.register(
 const Chart = ({ arr = [], currency, days }) => {
   const prices = [];
   const date = [];
+  const data = {
+    labels: date,
+    datasets: [
+      {
+        label: `price in ${currency}`,
+        data: prices,
+        borderColor: "rgb(255,92,132)",
+        backgroundColor: "rgba(255,92,132, 0.7)",
+      },
+    ],
+  };
 
   for (let i = 0; i < arr.length; i++) {
-    date.push(new Date(arr[i][0]).toLocaleDateString());
+    if (days === "24h") {
+      date.push(new Date(arr[i][0]).toTimeString()); 
+    } else {
+      date.push(new Date(arr[i][0]).toLocaleDateString());
+    }
     prices.push(arr[i][1]);
   }
 
-  return (
-    <Line
-      options={{ responsive: true }}
-      data={{
-        labels: date,
-        datasets: [
-          {
-            label: `price in ${currency}`,
-            data: prices,
-            borderColor: "rgb(255,92,132)",
-            backgroundColor: "rgba(255,92,132, 0.7)",
-          },
-        ],
-      }}
-    />
-  );
+  return <Line options={{ responsive: true }} data={data} />;
 };
 
 export default Chart;

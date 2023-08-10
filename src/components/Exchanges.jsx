@@ -51,12 +51,12 @@ const Exchanges = () => {
   // return statement starts here==================================>
 
   return (
-    <Container maxWidth={"container.xl"}>
+    <Container maxWidth={"container.xl"} justifyContent={'center'}>
       {loader ? (
         <Loader />
       ) : (
         <>
-          <HStack wrap={"wrap"}>
+          <HStack wrap={"wrap"} justifyContent={'center'}>
             {exchanges.map((i) => (
               <ExchangeCard
                 key={i.id}

@@ -14,6 +14,7 @@ import {
   StatArrow,
   Badge,
   Progress,
+  Button,
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import Loader from "./Loader";
@@ -26,15 +27,59 @@ import Chart from "./Chart";
 const Coindetails = () => {
   const [coin, setCoin] = useState([]);
   const [loader, setLoader] = useState(true);
-  const [error, setError] = useState(true);
+  const [error, setError] = useState(false);
   const [currency, setCurrency] = useState("inr");
-  const [days, setDays] = useState("24H");
+  const [days, setDays] = useState("24h");
   const [chartArray, setChartArray] = useState([]);
 
   const params = useParams();
+  // useParams() hook is used to retrieve route parameter from the URL component. this hook allows us to extract dynamic segement from the url and use them as props or for rendering specific content based on current route.
 
   const currencySymbol =
     currency === "inr" ? "₹" : currency === "eur" ? "€" : "$";
+
+  const btns = ["24h", "7d", "14d", "30d", "60d", "200d", "365d", "max"];
+
+  const changeDays = (key)=>{
+    switch (key) {
+      case "24h":
+        setDays("24h");
+        setLoader(true);
+        break;
+      case "7d":
+        setDays("7d");
+        setLoader(true)
+        break;
+      case "14d":
+        setDays("14d");
+        setLoader(true);
+        break;
+      case "30d":
+        setDays("30d");
+        setLoader(true);
+        break;
+      case "60d":
+        setDays("60d");
+        setLoader(true);
+        break;
+      case "200d":
+        setDays("200d");
+        setLoader(true);
+        break;
+      case "365d":
+        setDays("365d");
+        setLoader(true);
+        break;
+      case "max":
+        setDays("max");
+        setLoader(true);
+        break;
+    
+      default:
+        setDays("24h");
+        break;
+    }
+  }
 
   useEffect(() => {
     const fetchCoin = async () => {
@@ -42,9 +87,8 @@ const Coindetails = () => {
         const { data } = await axios.get(`${server}/coins/${params.id}`);
 
         const { data: chartData } = await axios.get(
-          `${server}/coins/${params.id}/market_chart?vs_currency={currency}&days={days}`
+          `${server}/coins/${params.id}/market_chart?vs_currency=${currency}&days=${days}`
         );
-        console.log(data);
         setCoin(data);
         setChartArray(chartData.prices);
         setLoader(false);
@@ -55,9 +99,12 @@ const Coindetails = () => {
     };
 
     fetchCoin();
-  }, [params.id]);
+  }, [params.id, currency, days]);
 
-  if (error) {return <Error message={"Error while fetching coin data"} />;}
+
+  if (error) {
+    return <Error message={"Error while fetching coin from the server"} />;
+  }
 
   return (
     <Container maxW={"container.xl"}>
@@ -69,7 +116,11 @@ const Coindetails = () => {
             <Chart arr={chartArray} currency={currencySymbol} days={days} />
           </Box>
 
-          {/* Button to change the chart  */}
+          <HStack p={"4"} wrap={"wrap"} justifyContent={'center'}>
+            {btns.map((i)=>(
+              <Button key={i} onClick={()=>changeDays(i)}>{i}</Button>
+            ))}
+          </HStack>
 
           <RadioGroup value={currency} onChange={setCurrency} p={"4"}>
             <HStack spacing={"4"}>
@@ -81,6 +132,7 @@ const Coindetails = () => {
 
           <VStack spacing={"4"} p={"16"} alignItems={"flex-start"}>
             <Text fontSize={"small"} alignSelf={"center"} opacity={0.7}>
+              Last Updated on{" "}
               {Date(coin.market_data.last_updated).split("G")[0]}
             </Text>
 
@@ -90,7 +142,6 @@ const Coindetails = () => {
               h={"16"}
               objectFit={"contain"}
             />
-
             <Stat>
               <StatLabel>{coin.name}</StatLabel>
               <StatNumber>
@@ -146,10 +197,10 @@ const Coindetails = () => {
 const CustomBar = ({ high, low }) => (
   <VStack w={"full"}>
     <Progress value={50} colorScheme={"teal"} w={"full"}></Progress>
-    <HStack justifyContent={"space-between"} colorScheme={"teal"} w={"full"}>
-      <Badge children={low} colorScheme="red" />
+    <HStack justifyContent={"space-between"} colorscheme={"teal"} w={"full"}>
+      <Badge children={low} colorscheme="red" />
       <Text fontSize={"sm"}>24H Range</Text>
-      <Badge children={high} colorScheme="green" />
+      <Badge children={high} colorscheme="green" />
     </HStack>
   </VStack>
 );
