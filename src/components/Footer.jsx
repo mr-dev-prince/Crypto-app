@@ -11,7 +11,7 @@ const Footer = () => {
       px={"16"}
       py={["16", "8"]}
     >
-      <Stack direction={['column', 'row']} h={"full"} alignItems={"center"}>
+      <Stack direction={['column', 'row']} h={"full"} alignItems={"center"} justifyContent={'space-between'}>
         <VStack w={"full"} alignItems={["center", "flex-start"]}>
           <Text fontWeight={"bold"}>About Us</Text>
           <Text
@@ -27,7 +27,7 @@ const Footer = () => {
         <VStack>
           <Avatar boxSize={"28"} mt={["4", "0"]} src={avatarSrc} />
           <Text>Created By</Text>
-          <Text>Prince Kumar Chaurasia</Text>
+          <Text fontSize={'sm'}  w={'40'} color={'white'}>Prince Kumar Chaurasia</Text>
         </VStack>
       </Stack>
     </Box>
